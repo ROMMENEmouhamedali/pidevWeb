@@ -3,17 +3,16 @@ package com.epicoders.metier.Services;
 import com.epicoders.metier.DB_Connection.ConnexionSingleton;
 import com.epicoders.metier.Entities.Event;
 import com.epicoders.metier.Entities.User;
-import com.epicoders.metier.Interfaces.Imetier;
+import com.epicoders.metier.Interfaces.UsersInterface;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MetierCataloguesImpl implements Imetier {
-    /*
-    User Management
-     */
+public class ServiceUser implements UsersInterface {
+
+
     @Override
     public void addUser(User u) {
         Connection conn = ConnexionSingleton.getConnection();
@@ -35,6 +34,7 @@ public class MetierCataloguesImpl implements Imetier {
         }
 
     }
+    @Override
     public boolean authenticate(String email,String password ) {
         Connection conn = ConnexionSingleton.getConnection();
         try {
@@ -70,29 +70,6 @@ public class MetierCataloguesImpl implements Imetier {
     }
 
 
-    /*
-    Event management
-     */
-
-    @Override
-    public void addEvent(Event e) {
-        Connection conn = ConnexionSingleton.getConnection();
-        try {
-            PreparedStatement ps = conn.prepareStatement
-                    ("insert into EVENT(NAME_EVENT,PRICE_EVENT,DESCRIPTION_EVENT,STARTDATE_EVENt) values(?,?,?,?)");
-            ps.setString(1, e.getNameEvent());
-            ps.setInt(2, e.getPriceEvent());
-            ps.setString(3, e.getDescriptionEvent());
-            ps.setDate(4,e.getStartDateEvent());
-
-            ps.executeUpdate();
-            ps.close();
-
-        } catch (SQLException es) {
-            es.printStackTrace();
-        }
-
-    }
 
 
 }

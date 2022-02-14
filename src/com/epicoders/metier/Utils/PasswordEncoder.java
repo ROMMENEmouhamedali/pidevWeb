@@ -1,4 +1,4 @@
-package com.epicoders.metier;
+package com.epicoders.metier.Utils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;

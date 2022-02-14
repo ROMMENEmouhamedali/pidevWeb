@@ -1,8 +1,6 @@
-package com.epicoders.metier;
+package com.epicoders.metier.Entities;
 
-import sun.security.util.Password;
-
-import java.util.Base64;
+import com.epicoders.metier.Entities.Enumerations.UserRole;
 
 public class User {
     private int idUser;
@@ -13,7 +11,7 @@ public class User {
     private int phoneNumber;
     private String password;
 
-    public User( String firstName, String lastName, String userName, String email, int phoneNumber,  UserRole userRole, String password) {
+    public User(String firstName, String lastName, String userName, String email, int phoneNumber, UserRole userRole, String password) {
 
         this.firstName = firstName;
         this.lastName = lastName;

@@ -1,4 +1,4 @@
-package com.epicoders.metier;
+package com.epicoders.metier.Entities;
 
 import java.util.ArrayList;
 import java.sql.Date;

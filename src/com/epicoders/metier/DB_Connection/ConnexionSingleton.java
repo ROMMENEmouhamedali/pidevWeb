@@ -1,4 +1,4 @@
-package com.epicoders.metier;
+package com.epicoders.metier.DB_Connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
