@@ -1,7 +1,7 @@
 package com.epicoders.metier;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class Event {
@@ -9,16 +9,16 @@ public class Event {
     public String nameEvent;
     private int priceEvent;
     private String DescriptionEvent;
-    private String startDateEvent;
+    private Date startDateEvent;
 
-    public Event(String nameEvent, int priceEvent, String descriptionEvent, String startDateEvent) {
+    public Event(String nameEvent, int priceEvent, String descriptionEvent, Date startDateEvent) {
         this.nameEvent = nameEvent;
         this.priceEvent = priceEvent;
         DescriptionEvent = descriptionEvent;
         this.startDateEvent = startDateEvent;
     }
 
-    public Event(int idEvent, String nameEvent, int priceEvent, String descriptionEvent, String startDateEvent) {
+    public Event(int idEvent, String nameEvent, int priceEvent, String descriptionEvent, Date startDateEvent) {
         this.idEvent = idEvent;
         this.nameEvent = nameEvent;
         this.priceEvent = priceEvent;
@@ -60,11 +60,11 @@ public class Event {
         DescriptionEvent = descriptionEvent;
     }
 
-    public String getStartDateEvent() {
+    public Date getStartDateEvent() {
         return startDateEvent;
     }
 
-    public void setStartDateEvent(String startDateEvent) {
+    public void setStartDateEvent(Date startDateEvent) {
         this.startDateEvent = startDateEvent;
     }
 }
