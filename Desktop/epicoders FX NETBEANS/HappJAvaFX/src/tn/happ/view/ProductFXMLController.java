@@ -24,6 +24,7 @@ import tn.happ.DB_Connection.ConnexionSingleton;
 import tn.happ.Model.Platter;
 import tn.happ.Model.Product;
 import tn.happ.Model.SendMail;
+import tn.happ.services.ProductService;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -43,6 +44,8 @@ public class ProductFXMLController implements Initializable {
     private ImageView logoImage1;
     @FXML
     private Button Mailbtn;
+    @FXML
+    private Button refresh;
     @FXML
     private Button exportbtn;
     @FXML
@@ -586,6 +589,10 @@ public class ProductFXMLController implements Initializable {
                         textNamePlatter.clear();
                         textIFileName.clear();
                         textIngredient.clear();
+                        textPricePlatter.clear();
+                        textNbPlatter.clear();
+                        textDescriptionPlatter.clear();
+                        
                     }
 
                 }
@@ -661,7 +668,7 @@ public class ProductFXMLController implements Initializable {
                 textPricePlatter.clear();
                 textNbPlatter.clear();
                 textDescriptionPlatter.clear();
-               
+
 
 
                 statement.close();
@@ -837,8 +844,12 @@ public class ProductFXMLController implements Initializable {
         translate1.setAutoReverse (true);
         translate1.play ();
     }
-    
-        
+
+    @FXML
+    void refresh(ActionEvent event) {
+        ProductService productService= new ProductService();
+        tvProduct.setItems((ObservableList<Product>) productService.displayAllProduct());
+    }
     
 
     }

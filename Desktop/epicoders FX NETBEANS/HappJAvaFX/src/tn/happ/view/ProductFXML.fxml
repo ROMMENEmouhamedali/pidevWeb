@@ -98,6 +98,7 @@
                            </image>
                         </ImageView>
                         <Button fx:id="exportbtn" layoutX="560.0" layoutY="409.0" mnemonicParsing="false" text="Export Excel" />
+                        <Button fx:id="refresh" layoutX="458.0" layoutY="409.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" visible="false" />
                      </children>
                   </AnchorPane>
             </content>
