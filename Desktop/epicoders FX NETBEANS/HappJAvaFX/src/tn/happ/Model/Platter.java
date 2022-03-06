@@ -12,14 +12,13 @@ public class Platter {
     private int NbPlatter;
     private String DescriptionPlatter;
     private String TypePlatter;
-  //  private int ID_USER;
-    private User user;
+
 
     public Platter() {
     }
 
 
-    public Platter(int idPlatter, String namePlatter, String imagePlatter, String ingredient, float pricePlatter, int nbPlatter, String descriptionPlatter, String typePlatter, User user) {
+    public Platter(int idPlatter, String namePlatter, String imagePlatter, String ingredient, float pricePlatter, int nbPlatter, String descriptionPlatter, String typePlatter) {
         IdPlatter = idPlatter;
         NamePlatter = namePlatter;
         ImagePlatter = imagePlatter;
@@ -28,10 +27,10 @@ public class Platter {
         NbPlatter = nbPlatter;
         DescriptionPlatter = descriptionPlatter;
         TypePlatter = typePlatter;
-        this.user = user;
+
     }
 
-    public Platter(String namePlatter, String imagePlatter, String ingredient, float pricePlatter, int nbPlatter, String descriptionPlatter, String typePlatter, User user) {
+    public Platter(String namePlatter, String imagePlatter, String ingredient, float pricePlatter, int nbPlatter, String descriptionPlatter, String typePlatter) {
         NamePlatter = namePlatter;
         ImagePlatter = imagePlatter;
         this.ingredient = ingredient;
@@ -39,7 +38,7 @@ public class Platter {
         NbPlatter = nbPlatter;
         DescriptionPlatter = descriptionPlatter;
         TypePlatter = typePlatter;
-        this.user = user;
+
     }
 
     public int getIdPlatter() {
@@ -106,14 +105,7 @@ public class Platter {
         TypePlatter = typePlatter;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -8,14 +8,21 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tn.happ.view.ProductFXMLController">
    <children>
@@ -30,7 +37,7 @@
                               <Image url="@../images/actu-14062016-ingredients-alimentaires.jpg" />
                            </image>
                         </ImageView>
-                        <VBox layoutX="21.0" layoutY="8.0" prefHeight="277.0" prefWidth="362.0">
+                        <VBox layoutX="15.0" layoutY="8.0" prefHeight="338.0" prefWidth="364.0">
                            <children>
                               <Label text="Product Management" textFill="#f20606">
                                  <font>
@@ -42,7 +49,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ListView fx:id="productListView" onMouseClicked="#getClickedItemProduct" prefHeight="278.0" prefWidth="362.0" style="-fx-border-color: blue;">
+                              <ListView fx:id="productListView" onMouseClicked="#getClickedItemProduct" prefHeight="226.0" prefWidth="395.0" style="-fx-border-color: blue;">
                                  <effect>
                                     <DropShadow />
                                  </effect>
@@ -72,15 +79,9 @@
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
-                        <Label fx:id="IdProductLabel" layoutX="443.0" layoutY="92.0" prefHeight="17.0" prefWidth="67.0" text="Id Product :" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font></Label>
-                        <TextField fx:id="textIdProduct" layoutX="525.0" layoutY="88.0" promptText="IdProduct" />
-                        <TableView fx:id="tvProduct" layoutX="45.0" layoutY="443.0" prefHeight="200.0" prefWidth="713.0">
+                        <TableView fx:id="tvProduct" layoutX="45.0" layoutY="443.0" prefHeight="200.0" prefWidth="497.0">
                            <columns>
-                              <TableColumn fx:id="colid" prefWidth="99.0" text="ID" />
-                              <TableColumn fx:id="colRefProduct" prefWidth="187.0" text="Ref Product" />
+                              <TableColumn fx:id="colRefProduct" prefWidth="76.0" text="Ref Product" />
                               <TableColumn fx:id="colSuppN" prefWidth="123.0" text="SupplierName" />
                               <TableColumn fx:id="colUnitPrice" prefWidth="171.0" text="Unit Price" />
                               <TableColumn fx:id="colQuantityProd" minWidth="0.0" prefWidth="132.0" text="Quantity Product" />
@@ -91,18 +92,124 @@
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
                         <TextField fx:id="keywordTextField" layoutX="172.0" layoutY="406.0" prefHeight="31.0" prefWidth="127.0" promptText="Keywords.." />
-                        <Button fx:id="Mailbtn" layoutX="658.0" layoutY="409.0" mnemonicParsing="false" onAction="#Mailing" prefHeight="25.0" prefWidth="90.0" text="Send Mail" />
+                        <Button fx:id="Mailbtn" layoutX="468.0" layoutY="409.0" mnemonicParsing="false" onAction="#Mailing" prefHeight="25.0" prefWidth="73.0" text="Send Mail" />
                         <ImageView fx:id="logoImage" fitHeight="60.0" fitWidth="175.0" layoutX="544.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/HAPP-removebg-preview.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="exportbtn" layoutX="560.0" layoutY="409.0" mnemonicParsing="false" text="Export Excel" />
-                        <Button fx:id="refresh" layoutX="458.0" layoutY="409.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" visible="false" />
+                        <Button fx:id="exportbtn" layoutX="383.0" layoutY="409.0" mnemonicParsing="false" text="Export Excel" />
+                        <Label fx:id="quantityLabel" layoutX="674.0" layoutY="274.0" prefHeight="25.0" prefWidth="120.0" textFill="#f8f8f8">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <VBox alignment="CENTER" layoutX="581.0" layoutY="422.0" prefHeight="173.0" prefWidth="160.0" spacing="10">
+                           <children>
+                              <StackPane prefHeight="150.0" prefWidth="200.0">
+                                 <children>
+                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5b78eb" height="50.0" stroke="BLACK" strokeType="INSIDE" width="160.0" />
+                                    <Text fx:id="output" strokeType="OUTSIDE" strokeWidth="0.0" text="0" wrappingWidth="37.46875">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </StackPane>
+                              <HBox alignment="CENTER" spacing="10">
+                                 <children>
+                                    <Button onAction="#processNumpad" prefWidth="50" text="7" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="8" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="9" />
+                                    <Button onAction="#processOperator" prefWidth="50" text="/" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10">
+                                 <children>
+                                    <Button onAction="#processNumpad" prefWidth="50" text="4" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="5" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="6" />
+                                    <Button onAction="#processOperator" prefWidth="50" text="*" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10">
+                                 <children>
+                                    <Button onAction="#processNumpad" prefWidth="50" text="1" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="2" />
+                                    <Button onAction="#processNumpad" prefWidth="50" text="3" />
+                                    <Button onAction="#processOperator" prefWidth="50" text="-" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" spacing="10">
+                                 <children>
+                                    <Button onAction="#processNumpad" prefWidth="110" text="0" />
+                                    <Button onAction="#processOperator" prefWidth="50" text="=" />
+                                    <Button onAction="#processOperator" prefWidth="50" text="+" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Technical Sheet">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="800.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/200522-fine-dining-al-0903.jpg" />
+                           </image>
+                        </ImageView>
+                        <ListView fx:id="platterListTS" layoutX="52.0" layoutY="60.0" prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="productListTS" layoutX="485.0" layoutY="60.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Label layoutX="34.0" layoutY="14.0" text="Our Speciality :" textFill="#d74747">
+                           <font>
+                              <Font name="Bodoni MT" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="449.0" layoutY="17.0" text="Product Requested :" textFill="#d74747">
+                           <font>
+                              <Font name="Bodoni MT" size="30.0" />
+                           </font>
+                        </Label>
+                        <TextArea fx:id="taInformation" layoutX="484.0" layoutY="431.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Button fx:id="okBTN" defaultButton="true" layoutX="75.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleOKbtn" prefHeight="25.0" prefWidth="154.0" text="Show Ingredients" textFill="#2b5999">
+                           <font>
+                              <Font name="System Bold Italic" size="15.0" />
+                           </font></Button>
+                        <Label layoutX="431.0" layoutY="295.0" prefHeight="60.0" prefWidth="107.0" text="Prices :" textFill="#d74747">
+                           <font>
+                              <Font name="Blackadder ITC" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="PricePlatterLabel" layoutX="528.0" layoutY="355.0" prefHeight="27.0" prefWidth="88.0">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <MediaView fx:id="mediaView" fitHeight="350.0" fitWidth="350.0" layoutX="32.0" layoutY="376.0" />
+                        <Button fx:id="PauseBTN" defaultButton="true" layoutX="154.0" layoutY="602.0" mnemonicParsing="false" onAction="#pauseMedia" text="Pause" textFill="#9a1515">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font></Button>
+                        <Button fx:id="ResetBTN" defaultButton="true" layoutX="220.0" layoutY="603.0" mnemonicParsing="false" onAction="#resetMedia" text="Reset" textFill="#9a1515">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font></Button>
+                        <Button fx:id="PlayBTN" defaultButton="true" layoutX="97.0" layoutY="602.0" mnemonicParsing="false" onAction="#playMedia" text="Play" textFill="#9a1515">
+                           <effect>
+                              <ColorAdjust />
+                           </effect>
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Platter">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="572.0" prefWidth="802.0">
@@ -112,7 +219,7 @@
                               <Image url="@../images/friends-having-pasta-dinner-restaurant-wine.jpg" />
                            </image>
                         </ImageView>
-                        <VBox layoutX="15.0" layoutY="9.0" prefHeight="369.0" prefWidth="372.0">
+                        <VBox layoutX="15.0" layoutY="9.0" prefHeight="352.0" prefWidth="372.0">
                            <children>
                               <Label text="Platter Management" textFill="#ee2e2e">
                                  <font>
@@ -124,7 +231,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                              <ListView fx:id="platterListView" onMouseClicked="#getClickedItemPlatter" prefHeight="300.0" prefWidth="372.0" style="-fx-border-color: blue;">
+                              <ListView fx:id="platterListView" onMouseClicked="#getClickedItemPlatter" prefHeight="278.0" prefWidth="362.0" style="-fx-border-color: blue;">
                                  <effect>
                                     <DropShadow />
                                  </effect>
@@ -137,12 +244,11 @@
                         <TextField fx:id="textNbPlatter" layoutX="541.0" layoutY="236.0" promptText="Nb Platter" />
                         <Button fx:id="insertBtnPlatter" layoutX="480.0" layoutY="373.0" mnemonicParsing="false" onAction="#insertActionPlatter" prefHeight="25.0" prefWidth="82.0" text="Insert" />
                         <TextField fx:id="textDescriptionPlatter" layoutX="542.0" layoutY="264.0" promptText="Description Platter" />
-                        <TextField fx:id="textIngredient" layoutX="541.0" layoutY="178.0" promptText="Ingredient" />
                         <Label fx:id="NamePlatterLabel" layoutX="429.0" layoutY="119.0" prefHeight="17.0" prefWidth="85.0" text="Name Platter :">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
-                        <Label fx:id="IngredientsPlatterLabel" layoutX="404.0" layoutY="183.0" prefHeight="17.0" prefWidth="120.0" text="Ingredients Platter :">
+                        <Label fx:id="IngredientsPlatterLabel" layoutX="392.0" layoutY="183.0" prefHeight="17.0" prefWidth="132.0" text="the Most used Product:">
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
@@ -162,10 +268,6 @@
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
-                        <Label fx:id="UserLabel" layoutX="476.0" layoutY="330.0" text="User :">
-                           <font>
-                              <Font name="System Bold Italic" size="12.0" />
-                           </font></Label>
                         <Button fx:id="importBTN" layoutX="706.0" layoutY="148.0" mnemonicParsing="false" onAction="#importBTNFct" text="import" />
                         <TextField fx:id="textIFileName" layoutX="539.0" layoutY="148.0" promptText="PathImage" />
                         <TextField fx:id="textPricePlatter" layoutX="541.0" layoutY="207.0" promptText="Price Platter" />
@@ -173,24 +275,17 @@
                            <font>
                               <Font name="System Bold Italic" size="12.0" />
                            </font></Label>
-                        <Label layoutX="439.0" layoutY="89.0" prefHeight="17.0" prefWidth="72.0" text="Id Platter :" textFill="WHITE">
-                           <font>
-                              <Font name="System Bold Italic" size="12.0" />
-                           </font></Label>
-                        <TextField fx:id="textIdPlatter" layoutX="538.0" layoutY="86.0" promptText="Id Platter" />
                         <ComboBox fx:id="comboTypePlatter" layoutX="543.0" layoutY="297.0" prefWidth="150.0" />
-                        <ComboBox fx:id="comboboxUserPlatter" layoutX="542.0" layoutY="327.0" onAction="#selectUserPlatter" prefWidth="150.0" />
-                        <TableView fx:id="tvPlatter" layoutX="19.0" layoutY="459.0" prefHeight="200.0" prefWidth="706.0">
+                        <TableView fx:id="tvPlatter" layoutX="19.0" layoutY="459.0" prefHeight="200.0" prefWidth="696.0">
                            <columns>
-                              <TableColumn fx:id="colidPlatter" prefWidth="54.0" text="ID" />
-                              <TableColumn fx:id="colNamePlatter" prefWidth="98.0" text="Name Platter" />
-                              <TableColumn fx:id="colImagePlatter" prefWidth="95.0" text="Image Platter" />
-                              <TableColumn fx:id="colIngredient" prefWidth="87.0" text="Ingredients" />
+                              <TableColumn fx:id="colidPlatter" minWidth="0.0" prefWidth="0.0" />
+                              <TableColumn fx:id="colNamePlatter" prefWidth="120.0" text="Name Platter" />
+                              <TableColumn fx:id="colImagePlatter" prefWidth="82.0" text="Image Platter" />
+                              <TableColumn fx:id="colIngredient" prefWidth="154.0" text="the Most used Product" />
                               <TableColumn fx:id="colPricePlatter" minWidth="0.0" prefWidth="92.0" text="Price Platter" />
-                              <TableColumn fx:id="colNbPlatter" prefWidth="124.0" text="Nb Platter" />
-                              <TableColumn fx:id="colDescriptionPlatter" prefWidth="75.0" text="Description" />
-                              <TableColumn fx:id="colTypePlatter" prefWidth="75.0" text="Type" />
-                              <TableColumn fx:id="colUser" prefWidth="75.0" text="User" />
+                              <TableColumn fx:id="colNbPlatter" prefWidth="88.0" text="Nb Platter" />
+                              <TableColumn fx:id="colDescriptionPlatter" prefWidth="89.0" text="Description" />
+                              <TableColumn fx:id="colTypePlatter" prefWidth="70.0" text="Type" />
                            </columns>
                         </TableView>
                         <ImageView fx:id="logoImage1" fitHeight="60.0" fitWidth="175.0" layoutX="553.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
@@ -198,6 +293,8 @@
                               <Image url="@../images/HAPP-removebg-preview.png" />
                            </image>
                         </ImageView>
+                        <ComboBox fx:id="comboboxProductPlatter" layoutX="541.0" layoutY="179.0" prefWidth="150.0" />
+                        
                      </children></AnchorPane>
             </content>
           </Tab>

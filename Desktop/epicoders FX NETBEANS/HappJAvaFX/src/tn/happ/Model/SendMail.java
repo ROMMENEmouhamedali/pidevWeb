@@ -3,6 +3,7 @@ package tn.happ.Model;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.*;
 import java.util.Properties;
 
 
@@ -30,7 +31,9 @@ public class SendMail {
         Message message = prepareMessage(session,username,recepient);
 
         Transport.send(message);
-        System.out.println("Message sent successfully");
+        JOptionPane.showMessageDialog(null, "Message sent successfully!");
+
+
     }
 
     private static Message prepareMessage(Session session, String username, String recepient) {
@@ -56,24 +59,7 @@ public class SendMail {
         return null;
     }
 }
-     /* try
-            {
-// Etape 2 : Création de l'objet Message
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("entegra.product@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(destinataire));
-                message.setSubject("A new product is worth seeing");
-                message.setText("hey ,There is a new product that you must see  ");
-// Etape 3 : Envoyer le message
-                Transport.send(message);
-                System.out.println("Message sent");
-            } catch (AddressException e) {
-                e.printStackTrace();
-            } catch (javax.mail.MessagingException e) {
-                e.printStackTrace();
-            }
-        }*/
+
 
 
 

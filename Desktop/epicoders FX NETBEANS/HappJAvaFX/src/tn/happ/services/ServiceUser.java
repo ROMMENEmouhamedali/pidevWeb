@@ -7,16 +7,16 @@ import com.example.happfxfinal.Model.User;
 import com.example.happfxfinal.DB_Connection.ConnexionSingleton;
 import com.example.happfxfinal.Services.PermissionServices;
 */
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
+import tn.happ.DB_Connection.ConnexionSingleton;
+import tn.happ.ExceptionHandler.ExceptionSqlError;
 import tn.happ.Model.Collaborator;
 import tn.happ.Model.Ennumerations.CollaboratorType;
 import tn.happ.Model.User;
-import tn.happ.DB_Connection.ConnexionSingleton;
-import tn.happ.services.PermissionServices;
-import tn.happ.ExceptionHandler.ExceptionSqlError;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 
 public class ServiceUser extends PermissionServices implements UsersInterface {
@@ -116,7 +116,7 @@ public class ServiceUser extends PermissionServices implements UsersInterface {
                         ps.setString(8, CollaboratorType.CATERINGMANAGER.toString());
                         break;
                     case "RECIPTIONIST":
-                        ps.setString(8, CollaboratorType.RECIPTIONIST.toString());
+                        ps.setString(8, CollaboratorType.RECEPTIONIST.toString());
                         break;
                     case "ASSISTANTCHEF":
                         ps.setString(8, CollaboratorType.ASSISTANTCHEF.toString());
