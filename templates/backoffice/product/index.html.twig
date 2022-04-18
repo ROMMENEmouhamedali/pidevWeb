@@ -1,0 +1,68 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block body %}
+    <h1>Product List</h1>
+   <div>
+    <p style="100px" > <input  id="myInput"  type="text" placeholder="search">
+        <img src="https://img.icons8.com/nolan/344/google-web-search.png" style="width:50px;height:50px;"/></a>
+
+                    </div>
+{# total items count #}
+{#<div class="count mt-4">
+   There are  {{ products.getTotalItemCount }} Products in Total 
+</div> #}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Refproduct</th>
+                <th>Suppliername</th>
+                <th>Unitpriceproduct</th>
+                <th>Quantityproduct</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody id="myTable">
+
+        {% for product in products %}
+            <tr>
+            
+                <td>{{ product.refproduct }}</td>
+                <td>{{ product.suppliername }}</td>
+                <td>{{ product.unitpriceproduct }}</td>
+                <td>{{ product.quantityproduct }}</td>
+               <td>
+                    <a href="{{ path('app_product_show', {'idproduct': product.idproduct}) }}">show</a>
+                    <a href="{{ path('app_product_edit', {'idproduct': product.idproduct}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tbody id="search">
+        </tbody>
+    </table>
+    {#
+<div class="navigation d-flex justify-content-center">
+    {{ knp_pagination_render(products) }}
+</div>
+#}
+    <a href="{{ path('app_product_new') }}">Create new</a>
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

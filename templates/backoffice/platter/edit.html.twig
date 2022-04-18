@@ -1,0 +1,13 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Edit Platter{% endblock %}
+
+{% block body %}
+    <h1>Edit Platter</h1>
+
+    {{ include('backoffice/platter/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a class="btn btn-outline-primary" href="{{ path('app_platter_index') }}">back to list</a>
+
+    {{ include('backoffice/platter/_delete_form.html.twig') }}
+{% endblock %}
