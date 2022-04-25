@@ -126,7 +126,7 @@ class PlatterController extends AbstractController
         $data=$request->get('search');
         $platter=$repository->findBy(['nameplatter'=>$data]);
         return $this->render('backoffice/platter/index.html.twig', [
-            'platters' => $platter,
+            'platters' => $platter, //kkk
         ]);
     }
 
