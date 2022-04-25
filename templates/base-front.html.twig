@@ -30,11 +30,12 @@
 		<link rel="stylesheet" href="{{ asset('FrontOffice/css/icomoon.css') }}">
 		<link rel="stylesheet" href="{{ asset('FrontOffice/css/style.css') }}">
 	</head>
+
 	<body>
 
 		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 			<div class="container">
-				<a class="navbar-brand" href="index.html">dirEngine.</a>
+				<a class="navbar-brand" href="index.html">HAAP</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="oi oi-menu"></span>
 					Menu
@@ -49,7 +50,7 @@
 							<a href="about.html" class="nav-link">About</a>
 						</li>
 						<li class="nav-item">
-							<a href="tour.html" class="nav-link">Tour</a>
+							<a href="{{path('app_listevent')}}" class="nav-link">Event</a>
 						</li>
 						<li class="nav-item">
 							<a href="hotel.html" class="nav-link">Hotels</a>
@@ -61,20 +62,37 @@
 							<a href="contact.html" class="nav-link">Contact</a>
 						</li>
 						<li class="nav-item cta">
-							<a href="{{path('security_registration')}}" class="nav-link">
-								<span>SIGN UP</span>
-							</a>
-							<a href="{{path('app_login')}}" class="nav-link">
-								<span>SIGN IN</span>
-							</a>
+							{% if(app.user)  %}
+								{% if("ROLE_ADMIN" in app.user.roles) %}
+									<a href="{{path('app_user_index')}}" class="nav-link">
+									<span>Manage site</span>
+								{% else %}
+									{% if("ROLE_EVENT_MANAGER" in app.user.roles) %}
+										<a href="{{path('app_event_index')}}" class="nav-link">
+										<span>Manage site</span>
+									{% endif %}
+								{% endif %}
+
+									<a href="{{path('app_logout')}}" class="nav-link">
+								<span>logout</span>
+								{% else %}
+									<a href="{{path('security_registration')}}" class="nav-link">
+										<span>SIGN UP</span>
+									</a>
+									<a href="{{path('app_login')}}" class="nav-link">
+										<span>SIGN IN</span>
+									</a>
+								{% endif %}
+
 						</li>
 					</ul>
 				</div>
 			</div>
-		</nav>
 
+		</nav>
+{% block body %}
 		<!-- END nav -->
-		{% block body %}
+
 			<div class="hero-wrap js-fullheight" style="background-image: url( {{ asset('FrontOffice/images/bg_1.jpg') }} ">
 
 				<div class="overlay"></div>
@@ -1148,7 +1166,10 @@
 				</div>
 			</section>
 
-		{% endblock %}
+
+	</body>
+	{% endblock %}
+
 
 		<footer class="ftco-footer ftco-bg-dark ftco-section">
 
@@ -1156,7 +1177,7 @@
 				<div class="row mb-5">
 					<div class="col-md">
 						<div class="ftco-footer-widget mb-4">
-							<h2 class="ftco-heading-2">dirEngine</h2>
+							<h2 class="ftco-heading-2">HAAP</h2>
 							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 							<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
 								<li class="ftco-animate">
@@ -1270,9 +1291,7 @@
 
 
 		<!-- loader -->
-		<div id="ftco-loader" class="show fullscreen">
-			<svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg>
-		</div>
+
 
 
 		<script src="{{ asset('FrontOffice/js/jquery.min.js') }}"></script>
@@ -1293,5 +1312,5 @@
 		<script src="{{ asset('FrontOffice/js/google-map.js') }}"></script>
 		<script src="{{ asset('FrontOffice/js/main.js') }}"></script>
 
-	</body>
+
 </html>

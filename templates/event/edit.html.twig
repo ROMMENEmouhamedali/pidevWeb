@@ -1,10 +1,14 @@
 {% extends "base-admin.html.twig"%}
 {% block body %}
+    <link
+            href="{{ asset('BackOffice/css/buttoncss.css')}}" rel="stylesheet">
     <h1>Edit Event</h1>
 
     {{ include('event/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_event_index') }}">back to list</a>
+    <a href="{{ path('app_event_index') }}">
+        <button type="submit" class="button">back to list</button></a>
+    </a>
 
     {{ include('event/_delete_form.html.twig') }}
 {% endblock %}

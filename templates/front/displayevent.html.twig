@@ -1,0 +1,147 @@
+{% extends 'base-front.html.twig' %}
+
+{% block title %}List Of Event {% endblock %}
+
+{% block body %}
+
+
+
+
+    <link
+            href="{{ asset('BackOffice/css/buttoncss.css')}}" rel="stylesheet">
+
+    <br><br><br>
+<style>
+    .card-group{
+        display: flex;
+        padding: 100px;
+        justify-content: revert;
+        flex-wrap: wrap;
+
+    }
+    .flip-card {
+        background-color: transparent;
+        width: 100px;
+        padding: 100px 300px;
+        height: 400px;
+
+        perspective: 1000px; /* Remove this if you don't want the 3D effect */
+
+    }
+
+    /* This container is needed to position the front and back side */
+    .flip-card-inner {
+        position:fixed;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    /* Do an horizontal flip when you move the mouse over the flip box container */
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    /* Position the front and back side */
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden; /* Safari */
+        backface-visibility: hidden;
+    }
+
+    /* Style the front side (fallback if image is missing) */
+    .flip-card-front {
+        background-color: #bbb;
+        color: black;
+        display: flex;
+        background-image:url({{ asset('/FrontOffice/images/party.jpg')}}) ;
+    }
+
+    /* Style the back side */
+    .flip-card-back {
+        background-color: dodgerblue;
+        color: white;
+        transform: rotateY(180deg);
+        background-image:url({{ asset('/FrontOffice/images/cc.jpg')}})
+    }
+    .text{
+        font-weight: 600;
+        font-size: 70px;
+        line-height:65px;
+        letter-spacing: 10px;
+        text-align: center;
+        text-transform: uppercase;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        background-size: 400%;
+        animation: move 5s ease infinite;
+        background-image: linear-gradient( 68.7deg,  rgba(29,173,235,1) 13.2%, rgba(137,149,250,1) 29.8%, rgba(229,109,212,1) 48.9%, rgba(255,68,128,1) 68.2%, rgba(255,94,0,1) 86.4% );
+    }
+    .text2{
+        font-weight: 10;
+        font-size: 50px;
+        line-height:60px;
+        letter-spacing: 10px;
+        text-align: center;
+        text-transform: uppercase;
+        color: transparent;
+        -webkit-background-clip: text;
+        background-clip: text;
+        background-size: 20%;
+        animation: move 5s ease infinite;
+        background-image: linear-gradient( 68.7deg,  rgba(29,173,235,1) 13.2%, rgba(137,149,250,1) 29.8%, rgba(229,109,212,1) 48.9%, rgba(255,68,128,1) 68.2%, rgba(255,94,0,1) 86.4% );
+    }
+
+    @keyframes move {
+        0%,100%{
+            background-position: 200% 0%;
+        }
+
+        50%{
+            background-position: 0% 200%;
+        }
+    }
+
+</style>
+
+        {% for event in events %}
+        <div class="card-group">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <div class="text">{{ event.nameevent }}</div>
+               <h2></h2>
+            </div>
+            <div class="flip-card-back">
+                <div class="text2"> price : {{ event.priceevent }}D </div>
+
+
+                <p>Description :<br> {{ event.descriptionevent }}</p>
+                <p>Start Date : {{ event.startdateevent |date('d-m-Y')}} </p>
+                <p>End Date : {{ event.enddateevent |date('d-m-Y') }} </p>
+                <p>Start Time : {{ event.starttimeevent |format_datetime('none', 'short')}} </p>
+                <p>End Time : {{ event.endtimeevent |format_datetime('none', 'short')}} </p>
+                <button type="submit" class="button2"> Registre </button>
+            </div>
+
+        </div>
+    </div>
+        </div>
+    {% endfor %}
+
+    <br><br><br>
+    <br><br><br>
+    <br><br><br><br><br><br>  <br><br><br>
+    <br><br><br>
+    <br><br><br><br><br><br>
+
+
+
+
+
+{% endblock %}

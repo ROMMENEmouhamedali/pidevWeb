@@ -1,8 +1,11 @@
 {% extends "base-admin.html.twig" %}
 {% block body %}
+    <link
+            href="{{ asset('BackOffice/css/buttoncss.css')}}" rel="stylesheet">
     <h1>Create new User</h1>
 
     {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+    <a href="{{ path('app_user_index') }}">
+        <button type="submit" class="button">back to list</button></a>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -78,7 +79,7 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        return ($this->passwordEncoder->isPasswordValid($user, $credentials['password'])&&!($user->getBlock()));
     }
 
     /**

@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\PropertyEventSearch;
 use App\Form\EventType;
+use App\Form\PropertyEventSearchType;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,21 +17,39 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventController extends AbstractController
 {
+
     /**
      * @Route("/", name="app_event_index", methods={"GET"})
      */
     public function index(EventRepository $eventRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+        if(!(in_array("ROLE_EVENT_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
+
         return $this->render('event/index.html.twig', [
             'events' => $eventRepository->findAll(),
         ]);
+
     }
+
+
+
 
     /**
      * @Route("/new", name="app_event_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EventRepository $eventRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+        if(!(in_array("ROLE_EVENT_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
@@ -50,6 +70,12 @@ class EventController extends AbstractController
      */
     public function show(Event $event): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+        if(!(in_array("ROLE_EVENT_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('event/show.html.twig', [
             'event' => $event,
         ]);
@@ -60,6 +86,12 @@ class EventController extends AbstractController
      */
     public function edit(Request $request, Event $event, EventRepository $eventRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+        if(!(in_array("ROLE_EVENT_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
@@ -79,10 +111,18 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event, EventRepository $eventRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+        if(!(in_array("ROLE_EVENT_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $eventRepository->remove($event);
         }
 
         return $this->redirectToRoute('app_event_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 }

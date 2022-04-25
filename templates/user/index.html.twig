@@ -1,35 +1,37 @@
 {% extends "base-admin.html.twig" %}
 {% block body %}
+    <link
+            href="{{ asset('BackOffice/css/buttoncss.css')}}" rel="stylesheet">
     <h1>User index</h1>
 
     <table class="table">
-        <thead>
+        <tbody>
+
             <tr>
-                <th>Id</th>
+                <th>Lastname</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Phonenumber</th>
-                <th>Resetcode</th>
+
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
+
+            <form role="search" class="sr-input-func">
+                <input type="text" placeholder="Search..." class="search-int form-control" name="search">
+                <a href="#"><i class="fa fa-search"></i></a>
+            </form>
+
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
+
+                <td>{{ user.lastname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.firstname }}</td>
-                <td>{{ user.lastname }}</td>
-                <td>{{ user.phonenumber }}</td>
-                <td>{{ user.resetcode }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">
+                        <button type="submit" class="button">Show</button></a><br><br>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">
+                        <button type="submit" class="button">Edit</button>
+                        </a>
                 </td>
             </tr>
         {% else %}
@@ -37,6 +39,7 @@
                 <td colspan="9">no records found</td>
             </tr>
         {% endfor %}
+
         </tbody>
     </table>
 

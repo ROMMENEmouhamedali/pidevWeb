@@ -1,6 +1,17 @@
 {% extends "base-admin.html.twig"%}
 {% block body %}
-    <h1>Event index</h1>
+    <br><br>
+
+    <link
+            href="{{ asset('BackOffice/css/buttoncss.css')}}" rel="stylesheet">
+
+
+
+<form>
+    <input type = "text" name="nameevent" >
+</form>
+
+
 
     <table class="table">
         <thead>
@@ -28,8 +39,10 @@
                 <td>{{ event.starttimeevent ? event.starttimeevent|date('H:i:s') : '' }}</td>
                 <td>{{ event.endtimeevent ? event.endtimeevent|date('H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_event_show', {'id': event.id}) }}">show</a>
-                    <a href="{{ path('app_event_edit', {'id': event.id}) }}">edit</a>
+                    <a href="{{ path('app_event_show', {'id': event.id}) }}">
+                        <button type="submit" class="button">Show</button>
+                    </a><br><br></a>
+                    <a href="{{ path('app_event_edit', {'id': event.id}) }}"><button type="submit" class="button">edit</button></a>
                 </td>
             </tr>
         {% else %}
@@ -40,5 +53,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_event_new') }}">Create new</a>
+    <a href="{{ path('app_event_new') }}">
+        <button type="submit" class="button"> Create new</button>
+       </a><br><br>
 {% endblock %}

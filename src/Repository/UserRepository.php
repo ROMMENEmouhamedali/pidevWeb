@@ -62,6 +62,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
@@ -78,8 +79,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
     }
     */
+    public function findAllWithSearch(?string $term)
+    {
+        $qb = $this->createQueryBuilder('e');
+        if ($term) {
+            $qb->andWhere(' e.email LIKE :term')
+                ->setParameter('term', '%' . $term . '%')
+            ;
+        }
+        return $qb
+            ->getQuery()
+            ->getResult();
 
-    /*
+    }
+
     public function findOneBySomeField($value): ?User
     {
         return $this->createQueryBuilder('u')
@@ -89,5 +102,5 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }

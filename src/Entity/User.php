@@ -5,9 +5,15 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="email is already used !"
+ * )
  */
 class User implements UserInterface
 {
@@ -20,6 +26,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     *
      */
     private $email;
 
@@ -49,10 +56,49 @@ class User implements UserInterface
      */
     private $phonenumber;
 
+
+
+
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $resetcode;
+    private $resetCode;
+    /**
+     * @Assert\Length(min="6" ,  minMessage="Votre mot de passe doit faire minimum 6 caracters")
+     */
+    public $newPassword;
+    /**
+     *
+     */
+    public $confirm;
+    protected $captchaCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $urlImg;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $valid;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $deleted;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $block;
+
+
+
+
+
+
 
     public function getId(): ?int
     {
@@ -170,16 +216,93 @@ class User implements UserInterface
 
         return $this;
     }
-
-    public function getResetcode(): ?string
+    public function getUrlImg(): ?string
     {
-        return $this->resetcode;
+        return $this->urlImg;
     }
 
-    public function setResetcode(string $resetcode): self
+    public function setUrlImg(string $urlImg): self
     {
-        $this->resetcode = $resetcode;
+        $this->urlImg = $urlImg;
 
         return $this;
     }
+
+
+
+
+
+
+
+    public function getResetCode(): ?string
+    {
+        return $this->resetCode;
+    }
+
+    public function setResetCode(?string $resetCode): self
+    {
+        $this->resetCode = $resetCode;
+
+        return $this;
+    }
+    public function getCaptchaCode(){
+        return $this->captchaCode;
+    }
+    public function setCaptchaCode($captchaCode){
+        $this->captchaCode = $captchaCode;
+    }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(?bool $valid): self
+    {
+        $this->valid = $valid;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(?bool $deleted): self
+    {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function isValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function getBlock(): ?bool
+    {
+        return $this->block;
+    }
+
+    public function setBlock(bool $block): self
+    {
+        $this->block = $block;
+
+        return $this;
+    }
+
+
+
+
+
+
 }
