@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -21,38 +22,45 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("user")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups("user")
      *
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("user")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("user")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("user")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("user")
      */
     private $phonenumber;
 
@@ -62,10 +70,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user")
      */
     private $resetCode;
     /**
      * @Assert\Length(min="6" ,  minMessage="Votre mot de passe doit faire minimum 6 caracters")
+     * @Groups("user")
      */
     public $newPassword;
     /**
@@ -76,21 +86,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups("user")
      */
     private $urlImg;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("user")
      */
     private $valid;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups("user")
      */
     private $deleted;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("user")
      */
     private $block;
 
@@ -300,7 +314,10 @@ class User implements UserInterface
         return $this;
     }
 
-
+    public function __toString()
+    {
+        return "$this->firstname ($this->id)";
+    }
 
 
 

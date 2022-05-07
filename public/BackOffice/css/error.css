@@ -39,10 +39,10 @@ body {
     background-size: cover;
     font-family: 'Inconsolata', Helvetica, sans-serif;
     font-size: 1.5rem;
-    color: rgba(128, 255, 128, 0.8);
+    color: rgba(234, 24, 76, 0.8);
     text-shadow:
             0 0 1ex rgba(51, 255, 51, 1),
-            0 0 2px rgba(255, 255, 255, 0.8);
+            0 0 2px rgb(234, 3, 99);
 }
 .noise {
     pointer-events: none;
@@ -84,7 +84,7 @@ body {
             0deg,
             transparent 0%,
             rgba(32, 128, 32, 0.2) 2%,
-            rgba(252, 6, 35, 0.71) 3%,
+            rgba(8, 12, 231, 0.71) 3%,
             rgba(32, 128, 32, 0.2) 3%,
             transparent 100%);
     background-repeat: no-repeat;
@@ -104,10 +104,10 @@ body {
     text-transform: uppercase;
 }
 .output {
-    color: rgba(128, 255, 128, 0.8);
+    color: rgba(20, 246, 239, 0.8);
     text-shadow:
             0 0 1px rgba(51, 255, 51, 0.4),
-            0 0 2px rgba(255, 255, 255, 0.8);
+            0 0 2px rgba(239, 5, 5, 0.8);
 }
 .output::before {
     content: "> ";
@@ -134,7 +134,7 @@ a::after {
     content: "]";
 }
 .errorcode {
-    color: white;
+    color: #ff0000;
 }
 
 ::-moz-selection {
