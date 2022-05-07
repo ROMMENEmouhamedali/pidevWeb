@@ -1,0 +1,46 @@
+{{ form_start(form) }}
+      <table>
+<tr>
+<td> {{form_label(form.fkUserReservation,"User Id")}}</td>
+<td> {{form_widget(form.fkUserReservation)}}</td>
+<td> {{form_errors(form.fkUserReservation)}}</td>
+</tr>
+
+<tr>
+<td> {{form_label(form.fkRoomReservation,"Room Types")}}</td>
+<td> {{form_widget(form.fkRoomReservation)}}</td>
+<td> {{form_errors(form.fkRoomReservation)}}</td>
+</tr>
+
+<tr>
+<td> {{form_label(form.arrivaldate,"Arrival Date ")}}</td>
+<td> {{form_widget(form.arrivaldate)}}</td>
+<td> {{form_errors(form.arrivaldate)}}</td>
+</tr>
+
+
+<tr>
+<td> {{form_label(form.departuredate,"Departure Date")}}</td>
+<td> {{form_widget(form.departuredate)}}</td>
+<td> {{form_errors(form.departuredate)}}</td>
+</tr>
+
+<tr>
+<td> {{form_label(form.specializedrequest,"Specialized Request")}}</td>
+<td> {{form_widget(form.specializedrequest)}}</td>
+<td> {{form_errors(form.specializedrequest)}}</td>
+</tr>
+
+
+   {% for message in app.flashes('info')  %}
+   <div class="alert alert-success">
+     {{ message }}
+   </div>  
+   {% endfor %}
+   
+</table>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+      
+  
+    
+{{ form_end(form) }}

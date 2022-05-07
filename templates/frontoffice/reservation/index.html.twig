@@ -1,0 +1,51 @@
+{% extends "base-front.html.twig" %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <h1>Reservation index</h1>
+   
+
+   
+
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reservationid</th>
+                <th>User Name</th>
+                <th>Room number </th>
+               
+                <th>arrivaldate</th>
+                <th>Departuredate</th>
+                <th>Specializedrequest</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.reservationid }}</td>
+                <td>{{ reservation.fkUserReservation.username}}</td>
+               
+                <td>{{ reservation.fkRoomReservation.roomnumber}}</td>
+                
+                <td>{{ reservation.arrivaldate ? reservation.arrivaldate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.departuredate ? reservation.departuredate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.specializedrequest }}</td>
+                <td>
+                    <a href="{{ path('app_reservation_show', {'reservationid': reservation.reservationid}) }}">show</a>
+                    <a href="{{ path('app_reservation_edit', {'reservationid': reservation.reservationid}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_new_front') }}">Create new</a>
+{% endblock %}

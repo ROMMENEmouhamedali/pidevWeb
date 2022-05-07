@@ -1,0 +1,52 @@
+{{ form_start(form) }}
+<table>
+<tr>
+
+<td> {{ form_label(form.nameplatter,"Platter Name :")}}</td>
+<td> {{ form_widget(form.nameplatter)}}</td>
+<td> {{ form_errors(form.nameplatter)}} </td>
+
+</tr>
+
+<tr>
+
+<td> {{ form_label(form.ingredient,"Ingredients :")}}</td>
+<td> {{ form_widget(form.ingredient)}}</td>
+<td> {{ form_errors(form.ingredient)}} </td>
+
+</tr>
+
+<tr>
+
+<td> {{ form_label(form.nbplatter,"Platter NB :")}}</td>
+<td> {{ form_widget(form.nbplatter)}}</td>
+<td> {{ form_errors(form.nbplatter)}} </td>
+
+</tr>
+<tr>
+
+<td> {{ form_label(form.descriptionplatter,"Platter Description :")}}</td>
+<td> {{ form_widget(form.descriptionplatter)}}</td>
+<td> {{ form_errors(form.descriptionplatter)}} </td>
+
+</tr>
+<tr>
+<td> {{ form_label(form.priceplatter,"Price Platter :")}}</td>
+<td> {{ form_widget(form.priceplatter)}}</td>
+<td> {{ form_errors(form.priceplatter)}} </td>
+</tr>
+
+<tr>
+<td> {{ form_label(form.typeplatter,"Type Platter  :")}}</td>
+<td> {{ form_widget(form.typeplatter)}}</td>
+<td> {{ form_errors(form.typeplatter)}} </td>
+</tr>
+
+<tr>
+<td> {{ form_label(form.imageplatter,"Image Platter  :")}}</td>
+<td> {{ form_widget(form.imageplatter)}}</td>
+<td> {{ form_errors(form.imageplatter)}} </td>
+</tr>
+</table>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

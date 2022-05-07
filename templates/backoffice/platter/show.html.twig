@@ -1,0 +1,50 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Platter{% endblock %}
+
+{% block body %}
+    <h1>Platter</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idplatter</th>
+                <td>{{ platter.idplatter }}</td>
+            </tr>
+            <tr>
+                <th>Nameplatter</th>
+                <td>{{ platter.nameplatter }}</td>
+            </tr>
+            <tr>
+                <th> Product Used</th>
+                <td>{{ platter.ingredient.RefProduct }}</td>
+            </tr>
+            <tr>
+                <th>Priceplatter</th>
+                <td>{{ platter.priceplatter }}</td>
+            </tr>
+            <tr>
+                <th>Nbplatter</th>
+                <td>{{ platter.nbplatter }}</td>
+            </tr>
+            <tr>
+                <th>Descriptionplatter</th>
+                <td>{{ platter.descriptionplatter }}</td>
+            </tr>
+            <tr>
+                <th>Typeplatter</th>
+                <td>{{ platter.typeplatter }}</td>
+            </tr>
+            <tr>
+                <th>Imageplatter</th>
+                <td>{{ platter.imageplatter }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-outline-primary" href="{{ path('app_platter_index') }}">back to list</a>
+
+    <a class="btn btn-outline-primary" href="{{ path('app_platter_edit', {'idplatter': platter.idplatter}) }}">edit</a>
+
+    {{ include('backoffice/platter/_delete_form.html.twig') }}
+{% endblock %}

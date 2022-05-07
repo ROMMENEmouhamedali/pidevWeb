@@ -1,0 +1,73 @@
+{% extends 'base-admin.html.twig' %}
+
+{% block title %}Platter index{% endblock %}
+
+{% block body %}
+    <h1>Platter List</h1>
+    {% for message in app.flashes('sucess') %}
+    <div class ="alert alert-success">
+    {{ message }}
+    </div>
+    {% endfor %}
+
+<form method="post" action="{{ path('search')}}">
+{% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+<label>  Search </label>
+<input type="text" name="search"> <input type="submit" value="search">
+</form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idplatter</th>
+                <th>Nameplatter</th>
+                <th>ingredients</th>
+                <th>Priceplatter</th>
+                <th>Nbplatter</th>
+                <th>Descriptionplatter</th>
+                <th>Typeplatter</th>
+                <th>Imageplatter</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for platter in platters %}
+            <tr>
+                <td>{{ platter.idplatter }}</td>
+                <td>{{ platter.nameplatter }}</td>
+                <td>{{ platter.ingredient.RefProduct }}</td>
+                <td>{{ platter.priceplatter }}</td>
+                <td>{{ platter.nbplatter }}</td>
+                <td>{{ platter.descriptionplatter }}</td>
+                <td>{{ platter.typeplatter }}</td>
+                <td><img src="{{ asset('BackOffice/img/' ~ platter.imageplatter) }}" 
+                alt="" style = "width: 70px;height: 60px "></td>
+                <td>
+                <a class="btn btn-outline-primary" href="{{ path ('stat',{'idplatter':platter.idplatter}) }}" >
+                                            Stat
+                                        </a>
+                                        
+                    <a class="btn btn-outline-primary" href="{{ path('app_platter_show', {'idplatter': platter.idplatter}) }}">show</a>
+                    <a class="btn btn-outline-primary" href="{{ path('app_platter_edit', {'idplatter': platter.idplatter}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-outline-primary" href="{{ path('app_platter_new') }}">Create new</a>
+    
+{% endblock %}

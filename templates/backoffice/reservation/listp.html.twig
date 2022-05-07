@@ -1,0 +1,56 @@
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <h1>List Of reservations</h1>
+    
+ {% for message in app.flashes('info')  %}
+   <div class="alert alert-success">
+     {{ message }}
+   </div>  
+   {% endfor %}
+
+   
+      <table class="table">
+        <thead>
+            <tr>
+                <th>Reservationid</th>
+                <th>User ID</th>
+                <th>Room Number</th>
+                <th>Arrivaldate</th>
+                <th>Departuredate</th>
+                <th>Specializedrequest</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.reservationid }}</td>
+                <td>{{ reservation.fkUserReservation.username }}</td>
+                <td>{{ reservation.fkRoomReservation.roomnumber }}</td>
+                <td>{{ reservation.arrivaldate ? reservation.arrivaldate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.departuredate ? reservation.departuredate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.specializedrequest }}</td>
+                <td>
+                    
+                    <a class="btn btn-outline-primary" href="{{ path('app_reservation_show', {'reservationid': reservation.reservationid}) }}">show</a>
+
+                    <a class="btn btn-outline-primary" href="{{ path('app_reservation_edit', {'reservationid': reservation.reservationid}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+         <tbody id="search">
+        </tbody>
+    </table>
+ <a class="btn btn-outline-primary" href="{{ path('app_reservation_new') }}" >Create new</a>
+
+  
+    
+{% endblock %}
