@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use necrox87\NudityDetector\NudityDetector;
 
 /**
  * @Route("/platter")
@@ -40,17 +41,22 @@ class PlatterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           $file=$platter->getImageplatter();
-           $fileName= md5(uniqid()).'.'.$file->guessExtension();
-           try{
-               $file->move(
+           $uploadFile=$platter->getImageplatter();
+           $NudityChecker = new NudityDetector($uploadFile);
+           if($NudityChecker->isPorn()) {
+               $this->addFlash('error' , 'it includes sensitive content');
+           }
+           else if ($uploadFile) {
+           $fileName= md5(uniqid()).'.'.$uploadFile->guessExtension();
+           
+               $uploadFile->move(
                    $this->getParameter('images_directory'),
                    $fileName
                );
-           }catch(FileException $e) {
-
-           }
-           $platter->setImageplatter($fileName);
+               $platter->setImageplatter($fileName);
+            }
+           
+           
             $entityManager->persist($platter);
             $entityManager->flush();
 
@@ -82,17 +88,20 @@ class PlatterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file=$platter->getImageplatter();
-            $fileName= md5(uniqid()).'.'.$file->guessExtension();
-            try{
-                $file->move(
+            $uploadFile=$platter-> getImageplatter();
+            $NudityChecker = new NudityDetector($uploadFile);
+            if($NudityChecker->isPorn()) {
+                $this->addFlash('error' , 'elle comprend un contenu sensible');
+            }
+            else if ($uploadFile) {
+            $fileName= md5(uniqid()).'.'.$uploadFile->guessExtension();
+            
+                $uploadFile->move(
                     $this->getParameter('images_directory'),
                     $fileName
                 );
-            }catch(FileException $e) {
- 
-            }
-            $platter->setImageplatter($fileName);
+                $platter->setImageplatter($fileName);
+             }
             $entityManager->flush();
             $this->addFlash('success','Updated successfully !');
             return $this->redirectToRoute('app_platter_index', [], Response::HTTP_SEE_OTHER);
@@ -129,5 +138,45 @@ class PlatterController extends AbstractController
             'platters' => $platter, //kkk
         ]);
     }
+
+    /**
+     * @Route("/stat/{idplatter}", name="stat")
+     */
+    public function product_stat(PlatterRepository $platterRepository): Response
+    {
+        $nbrs[] = array();
+
+        $e1 = $platterRepository->find_Nb_Rec_Par_Status("Breakfast");
+        dump($e1);
+        $nbrs[] = $e1[0][1];
+
+
+        $e2 = $platterRepository->find_Nb_Rec_Par_Status("Lunch");
+        dump($e2);
+        $nbrs[] = $e2[0][1];
+
+        
+                $e3=$platterRepository->find_Nb_Rec_Par_Status("Dinner");
+                dump($e3);
+                $nbrs[]=$e3[0][1];
+        
+
+        dump($nbrs);
+        reset($nbrs);
+        dump(reset($nbrs));
+        $key = key($nbrs);
+        dump($key);
+        dump($nbrs[$key]);
+
+        unset($nbrs[$key]);
+
+        $nbrss = array_values($nbrs);
+        dump(json_encode($nbrss));
+
+        return $this->render('backoffice/platter/statplatter.html.twig', [
+            'nbr' => json_encode($nbrss),
+        ]);
+    }
+    
 
 }

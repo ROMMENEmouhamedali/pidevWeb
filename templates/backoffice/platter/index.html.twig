@@ -11,6 +11,17 @@
     {% endfor %}
 
 <form method="post" action="{{ path('search')}}">
+{% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
 <label>  Search </label>
 <input type="text" name="search"> <input type="submit" value="search">
 </form>
@@ -33,7 +44,7 @@
             <tr>
                 <td>{{ platter.idplatter }}</td>
                 <td>{{ platter.nameplatter }}</td>
-                <td>{{ platter.ingredient }}</td>
+                <td>{{ platter.ingredient.RefProduct }}</td>
                 <td>{{ platter.priceplatter }}</td>
                 <td>{{ platter.nbplatter }}</td>
                 <td>{{ platter.descriptionplatter }}</td>
@@ -41,6 +52,10 @@
                 <td><img src="{{ asset('BackOffice/img/' ~ platter.imageplatter) }}" 
                 alt="" style = "width: 40px;height: 30px "></td>
                 <td>
+                <a class="btn btn-outline-primary" href="{{ path ('stat',{'idplatter':platter.idplatter}) }}" >
+                                            Stat
+                                        </a>
+                                        
                     <a class="btn btn-outline-primary" href="{{ path('app_platter_show', {'idplatter': platter.idplatter}) }}">show</a>
                     <a class="btn btn-outline-primary" href="{{ path('app_platter_edit', {'idplatter': platter.idplatter}) }}">edit</a>
                 </td>
@@ -54,4 +69,5 @@
     </table>
 
     <a class="btn btn-outline-primary" href="{{ path('app_platter_new') }}">Create new</a>
+    
 {% endblock %}

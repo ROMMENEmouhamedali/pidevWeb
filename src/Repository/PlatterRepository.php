@@ -44,7 +44,17 @@ class PlatterRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function find_Nb_Rec_Par_Status($type)
+    {
 
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'SELECT DISTINCT  count(r.idplatter) FROM   App\Entity\Platter r  where r.typeplatter = :typeplatter   '
+        );
+        $query->setParameter('typeplatter', $type);
+        return $query->getResult();
+    }
     // /**
     //  * @return Platter[] Returns an array of Platter objects
     //  */

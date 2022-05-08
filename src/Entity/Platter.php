@@ -40,9 +40,12 @@ class Platter
     private $nameplatter;
 
     /**
-     * @var string
+     * @var \Product
      *
-     * @ORM\Column(name="ingredient", type="string", length=50, nullable=false)
+     * @ORM\ManyToOne(targetEntity="Product", cascade={"all"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="fk_ingredient", referencedColumnName="IdProduct")
+     * })
      */
     private $ingredient;
 
@@ -94,7 +97,6 @@ class Platter
      *     minHeight = 200,
      *     maxHeight = 4000
      * )
-     * @Assert\File(mimeTypes={"image/jpeg"}) 
      */
     private $imageplatter;
 
@@ -115,12 +117,12 @@ class Platter
         return $this;
     }
 
-    public function getIngredient(): ?string
+    public function getIngredient(): ?Product
     {
         return $this->ingredient;
     }
 
-    public function setIngredient(string $ingredient): self
+    public function setIngredient(Product $ingredient): self
     {
         $this->ingredient = $ingredient;
 

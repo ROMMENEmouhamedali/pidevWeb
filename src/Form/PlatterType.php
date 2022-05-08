@@ -17,7 +17,12 @@ class PlatterType extends AbstractType
     {
         $builder
             ->add('nameplatter')
-            ->add('ingredient',TextareaType::class)
+            ->add('ingredient',EntityType::class,[
+                'class'=>Product::class,
+                'choice_label'=>'RefProduct',
+                'multiple'=>false,
+                'expanded'=>false,
+                  ])
             ->add('priceplatter')
             ->add('nbplatter')
             ->add('descriptionplatter',TextareaType::class)

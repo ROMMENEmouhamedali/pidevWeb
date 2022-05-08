@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 //Helooooo
 /**
  * @Route("/product")
@@ -18,17 +20,70 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", name="app_product_index", methods={"GET"})
+     * @Route("/", name="app_product_index", methods={"GET","POST"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager,Request $request): Response
     {
         $products = $entityManager
             ->getRepository(Product::class)
             ->findAll();
+            if ($request->isMethod("POST") ) {
 
+                $type= $request->get('sort') ;
+                if ($type == "name" ) {
+                    $products = $this->getDoctrine()->getRepository(Product::class)->findBy(array(),array('suppliername' => 'ASC'));
+                }
+                elseif ($type == "nbr_exp") {
+                    $products = $this->getDoctrine()->getRepository(Product::class)->findBy(array(),array('unitpriceproduct' => 'DESC'));
+                }
+                elseif ($type == "nbr_exp") {
+                    $products = $this->getDoctrine()->getRepository(Product::class)->findBy(array(),array('quantityproduct' => 'DESC'));
+                }
+                else {
+                    $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+                }
+    
+            }
+    
+           
         return $this->render('backoffice/product/index.html.twig', [
             'products' => $products,
         ]);
+    }
+     /**
+     * @Route("/listp", name="product_list", methods={"GET"})
+     */
+    public function listp(ProductRepository $productsRepository): Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('backoffice/product/listp.html.twig', [
+            'products' => $productsRepository->findAll(),
+        ]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render('backoffice/product/index.html.twig');
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("mypdf.pdf", [
+            "Attachment" => true
+        ]);
+
+
+        // Send some text response
+        return new Response("The PDF file has been succesfully generated !");
     }
 
     /**
@@ -113,20 +168,11 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
+
     
- /**
-     * @Route("/paginator", name="paginator", methods={"GET"})
-     */
-    public function index1(ProductRepository $repository,PaginatorInterface $paginator,Request $request): Response
-    {
-        $products = $paginator->paginate(
-            $repository->findAll(), /* query NOT result */
-            $request->query->getInt('page', 1),
-            10
-        );
-        return $this->render('backoffice/product/index.html.twig', [
-            'products' => $products,
-        ]);
-    }
+
+    
+    
+
     
 }
