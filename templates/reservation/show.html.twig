@@ -1,0 +1,34 @@
+{% extends "base-admin.html.twig" %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Reservationid</th>
+                <td>{{ reservation.reservationid }}</td>
+            </tr>
+            <tr>
+                <th>Arrivaldate</th>
+                <td>{{ reservation.arrivaldate ? reservation.arrivaldate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Departuredate</th>
+                <td>{{ reservation.departuredate ? reservation.departuredate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Specializedrequest</th>
+                <td>{{ reservation.specializedrequest }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_index') }}">back to list</a>
+
+    <a href="{{ path('app_reservation_edit', {'reservationid': reservation.reservationid}) }}">edit</a>
+
+    {{ include('reservation/_delete_form.html.twig') }}
+{% endblock %}

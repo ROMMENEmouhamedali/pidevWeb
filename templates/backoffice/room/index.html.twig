@@ -1,0 +1,53 @@
+{% extends "base-admin.html.twig" %}
+
+{% block title %}Room index{% endblock %}
+
+{% block body %}
+    <h1>List Of Rooms</h1>
+    {% for message in app.flashes('info')  %}
+   <div class="alert alert-success">
+     {{ message }}
+   </div>  
+   {% endfor %}
+    
+    <form method="post" action="{{path('search')}}">
+    <label> Search </label>
+    <input type="text" name="search"> <input type="submit" value="Search" class="btn btn-success" >
+    </form>
+  
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Roomid</th>
+                <th>Roomnumber</th>
+                <th>Roomtype</th>
+                <th>Roompricepernight</th>
+                <th>Roomdirection</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for room in rooms %}
+            <tr>
+                <td>{{ room.roomid }}</td>
+                <td>{{ room.roomnumber }}</td>
+                <td>{{ room.roomtype }}</td>
+                <td>{{ room.roompricepernight }}</td>
+                <td>{{ room.roomdirection }}</td>
+                <td>
+                    
+                      <a class="btn btn-outline-primary" href="{{ path('app_room_show', {'roomid': room.roomid}) }}">show</a>
+                      <a class="btn btn-outline-primary" href="{{ path('app_room_edit', {'roomid': room.roomid}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+   
+    <a class="btn btn-outline-primary" href="{{ path('app_room_new') }}">Create new</a>
+{% endblock %}

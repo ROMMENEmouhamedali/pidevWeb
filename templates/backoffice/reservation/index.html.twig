@@ -1,0 +1,73 @@
+{% extends "base-admin.html.twig" %}
+
+{% block title %}Reservation index{% endblock %}
+
+{% block body %}
+    <h1>List Of reservations</h1>
+    
+ {% for message in app.flashes('info')  %}
+   <div class="alert alert-success">
+     {{ message }}
+   </div>  
+   {% endfor %}
+
+   <div>
+    <p style="100px" > <input  id="myInput"  type="text" placeholder="search">
+        <img src="https://img.icons8.com/nolan/344/google-web-search.png" style="width:50px;height:50px;"/></a>
+
+                    </div>
+      <table class="table">
+        <thead>
+            <tr>
+                <th>Reservationid</th>
+                <th>User ID</th>
+                <th>Room Number</th>
+                <th>Arrivaldate</th>
+                <th>Departuredate</th>
+                <th>Specializedrequest</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tbody id="myTable">
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.reservationid }}</td>
+                <td>{{ reservation.fkUserReservation.username }}</td>
+                <td>{{ reservation.fkRoomReservation.roomnumber }}</td>
+                <td>{{ reservation.arrivaldate ? reservation.arrivaldate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.departuredate ? reservation.departuredate|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.specializedrequest }}</td>
+                <td>
+                    
+                    <a class="btn btn-outline-primary" href="{{ path('app_reservation_show', {'reservationid': reservation.reservationid}) }}">show</a>
+
+                    <a class="btn btn-outline-primary" href="{{ path('app_reservation_edit', {'reservationid': reservation.reservationid}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+         <tbody id="search">
+        </tbody>
+    </table>
+ <a class="btn btn-outline-primary" href="{{ path('app_reservation_new') }}" >Create new</a>
+ 
+ <a class="btn btn-outline-primary" href="{{ path('app_reservation_pdf') }}" >pdf</a>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
