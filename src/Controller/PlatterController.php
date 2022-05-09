@@ -23,6 +23,13 @@ class PlatterController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $platters = $entityManager
             ->getRepository(Platter::class)
             ->findAll();
@@ -37,6 +44,13 @@ class PlatterController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $platter = new Platter();
         $form = $this->createForm(PlatterType::class, $platter);
         $form->handleRequest($request);
@@ -85,6 +99,13 @@ class PlatterController extends AbstractController
      */
     public function edit(Request $request, Platter $platter, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(PlatterType::class, $platter);
         $form->handleRequest($request);
 
@@ -119,6 +140,13 @@ class PlatterController extends AbstractController
      */
     public function delete(Request $request, Platter $platter, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($this->isCsrfTokenValid('delete'.$platter->getIdplatter(), $request->request->get('_token'))) {
             $entityManager->remove($platter);
             $entityManager->flush();
@@ -133,6 +161,13 @@ class PlatterController extends AbstractController
      */
     public function search(PlatterRepository $repository,Request $request)
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $data=$request->get('search');
         $platter=$repository->findBy(['nameplatter'=>$data]);
         return $this->render('backoffice/platter/index.html.twig', [
@@ -145,6 +180,13 @@ class PlatterController extends AbstractController
      */
     public function product_stat(PlatterRepository $platterRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $nbrs[] = array();
 
         $e1 = $platterRepository->find_Nb_Rec_Par_Status("Breakfast");

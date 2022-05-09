@@ -42,6 +42,16 @@ class ReservationController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
+
+
+
         $reservations = $entityManager
             ->getRepository(Reservation::class)
             ->findAll();
@@ -53,6 +63,13 @@ class ReservationController extends AbstractController
     * @Route("/statistic", name="app_stat")
     */
    public function statistic(ProgressroomRepository $progressroomRepository){
+       if (!($this->getUser())) {
+           return $this->redirectToRoute('app_home');
+       }
+
+       if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+           return $this->redirectToRoute('app_home');
+       }
 
 
        $progressroomAll=$progressroomRepository->findAll();
@@ -95,6 +112,13 @@ class ReservationController extends AbstractController
      */
     public function listp(ReservationRepository $reservationRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -130,6 +154,13 @@ class ReservationController extends AbstractController
      */
     public function progressBar(OutputInterface $output): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
       // creates a new progress bar (50 units)
 $progressBar = new ProgressBar($output, 50);
 
@@ -159,6 +190,13 @@ $progressBar->finish();
       */
     function OrderByRoomNumberDQL(ReservationRepository $repository)
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
            $reservations=$repository->OrderByRoomNumber();
            return $this->render('backoffice/reservation/index.html.twig', [
             'reservations' => $reservations,
@@ -171,7 +209,14 @@ $progressBar->finish();
      * @param QrcodeService $qrcodeService 
      */
     public function new(Request $request, EntityManagerInterface $entityManager, CalenderroomRepository $CRepository,\Swift_Mailer $mailer,ProgressroomRepository $progressroomRepository, QrcodeService $qrcodeService): Response
-    {   
+    {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $qrCode=null;
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
@@ -250,41 +295,46 @@ $progressBar->finish();
     /**
      * @Route("/newfront", name="app_reservation_new_front", methods={"GET", "POST"})
      */
-    public function newfront(Request $request, ReservationRepository $reservationRepository, CalenderroomRepository $CRepository): Response
+    public function newfront(Request $request, ReservationRepository $reservationRepository, CalenderroomRepository $CRepository,QrcodeService $qrcodeService  ): Response
     {
+        $qrCode=null;
         $reservation = new Reservation();
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
 
-       $AvailableRoomOnDD=$CRepository->findOneBy(array('dateroom' => $reservation->getDeparturedate() ,
-        'state'=>'0'));
-        
-        
-        $AvailableRoomOnAD=$CRepository->findOneBy(array('dateroom' => $reservation->getArrivaldate() ,
-        'state'=>'0' ));
+        $AvailableRoomOnDD=$CRepository->findOneBy(array('dateroom' => $reservation->getDeparturedate() ,
+            'state'=>'0'));
 
-        if ($form->isSubmitted() && $form->isValid() && $AvailableRoomOnDD!=NULL && $AvailableRoomOnAD!=NULL) {
+
+        $AvailableRoomOnAD=$CRepository->findOneBy(array('dateroom' => $reservation->getArrivaldate() ,
+            'state'=>'0' ));
+
+        if ($form->isSubmitted() && $form->isValid() && $AvailableRoomOnDD!=NULL && $AvailableRoomOnAD!=NULL)
+        {
             $reservationRepository->add($reservation);
 
             $this->addFlash(
                 'info',
                 'Your reservation is added successfully an Email will be sent!'
             );
-          //  return $this->redirectToRoute('app_reservation_show_front', [], Response::HTTP_SEE_OTHER);
-        } 
+            $dateString = $reservation->getArrivaldate()->format('d-m-Y H:i:s');
+            $qrCode = $qrcodeService->qrcode( $dateString);
+            //  return $this->redirectToRoute('app_reservation_show_front', [], Response::HTTP_SEE_OTHER);
+        }
         if ($form->isSubmitted() && $form->isValid() && $AvailableRoomOnDD==NULL && $AvailableRoomOnAD==NULL)
-       { $this->addFlash(
+        { $this->addFlash(
             'info',
             'SORRY no rooms are available for the given dates!'
         );}
         return $this->render('frontoffice/reservation/new.html.twig', [
             'reservation' => $reservation,
             'form' => $form->createView(),
+            'qrCode' => $qrCode
         ]);
-    
-    
 
-       
+
+
+
     }
       
 
@@ -293,6 +343,13 @@ $progressBar->finish();
      */
     public function showfront(Reservation $reservation): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('backoffice/reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
@@ -308,6 +365,13 @@ $progressBar->finish();
      */
     public function show(Reservation $reservation): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('backoffice/reservation/show.html.twig', [
             'reservation' => $reservation,
         ]);
@@ -318,6 +382,13 @@ $progressBar->finish();
      */
     public function edit(Request $request, Reservation $reservation, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);
          
@@ -343,6 +414,13 @@ $progressBar->finish();
      */
     public function delete(Request $request, Reservation $reservation, EntityManagerInterface $entityManager,ProgressroomRepository $progressroomRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($this->isCsrfTokenValid('delete'.$reservation->getReservationid(), $request->request->get('_token'))) {
           
             $progress=$progressroomRepository->find(1);

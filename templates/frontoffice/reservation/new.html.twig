@@ -4,8 +4,32 @@
 {% block title %}New Reservation{% endblock %}
 
 {% block body %}
-    <h1>BOOK NOW! </h1>
 
-    {{ include('frontoffice/reservation/_form.html.twig') }}
+    <table>
+
+
+        <td>
+            <h1>BOOK NOW! </h1>
+            {{ include('frontoffice/reservation/_form.html.twig') }}
+        </td>
+
+        <td>
+            <div class="col-md-6">
+                {% if qrCode %}
+                    <div class="alert alert-success">
+                        <h6> Please use the following qr code before you enter our hotel </h6>
+                    </div>
+
+                    <img src="{{ qrCode }}" alt="qr-code">
+                {% endif %}
+            </div>
+        </td>
+        </tr>
+    </table>
+
+
+
+
+
 
 {% endblock %}

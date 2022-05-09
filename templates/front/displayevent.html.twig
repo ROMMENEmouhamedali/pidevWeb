@@ -126,7 +126,10 @@
                 <p>End Date : {{ event.enddateevent |date('d-m-Y') }} </p>
                 <p>Start Time : {{ event.starttimeevent |format_datetime('none', 'short')}} </p>
                 <p>End Time : {{ event.endtimeevent |format_datetime('none', 'short')}} </p>
-                <button type="submit" class="button2"> Registre </button>
+
+
+                <a href="{{ path('app_event_registration', {'id': event.id}) }}"><button  type="submit" class="button2"> Registre </button></a>
+
             </div>
 
         </div>

@@ -32,17 +32,17 @@ class QrcodeService
 
         // set qrcode
         $result = $this->builder
-            ->data($url.$query) 
+            ->data($url.$query)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(400)
+            ->size(200)
             ->margin(10)
             ->labelText($dateString)
             ->labelAlignment(new LabelAlignmentCenter())
             ->labelMargin(new Margin(15, 5, 5, 5))
             ->logoPath($path.'img/logo.png')
-            ->logoResizeToWidth('100')
-            ->logoResizeToHeight('100')
+            ->logoResizeToWidth('20')
+            ->logoResizeToHeight('20')
             ->backgroundColor(new Color(221, 158, 3))
             ->build()
         ;

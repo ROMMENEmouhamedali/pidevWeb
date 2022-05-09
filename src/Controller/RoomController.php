@@ -25,6 +25,13 @@ class RoomController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager):Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
 
         $rooms = $entityManager
         ->getRepository(Room::class)
@@ -40,14 +47,28 @@ class RoomController extends AbstractController
      * @Route("room/search", name="search")
      */
     public function search(RoomRepository $repository,Request $request)
-    { 
+    {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
        $number=$request->get('search');
        $room=$repository->findBy(['roomnumber'=>$number]);
        return $this->render('backoffice/room/index.html.twig', 
        ['rooms' => $room, ]);
     }
     public function searchRoomNumber(RoomRepository $repository,Request $request)
-    { 
+    {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
        $number=$request->get('search');
        $room=$repository->findOneBy(['roomnumber'=>$number]);
        if($room!="")
@@ -61,7 +82,14 @@ class RoomController extends AbstractController
      * @Route("/new", name="app_room_new", methods={"GET", "POST"})
      */
     public function new(Request $request, EntityManagerInterface $entityManager,RoomRepository $repository): Response
-    {  
+    {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $room = new Room();
 
 
@@ -98,6 +126,13 @@ class RoomController extends AbstractController
      */
     public function show(Room $room): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('backoffice/room/show.html.twig', [
             'room' => $room,
         ]);
@@ -108,6 +143,13 @@ class RoomController extends AbstractController
      */
     public function edit(Request $request, Room $room, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("RECEPTIONIST",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(RoomType::class, $room);
         $form->handleRequest($request);
 

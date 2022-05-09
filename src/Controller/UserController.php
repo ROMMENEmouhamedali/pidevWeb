@@ -70,6 +70,7 @@ class UserController extends AbstractController
     public function show(User $user): Response
     {
 
+
         if(!(in_array("ROLE_ADMIN",$this->getUser()->getRoles()))) {
             return $this->redirectToRoute('app_home');
         }

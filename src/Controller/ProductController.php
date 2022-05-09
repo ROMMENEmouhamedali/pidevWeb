@@ -24,6 +24,13 @@ class ProductController extends AbstractController
      */
     public function index(EntityManagerInterface $entityManager,Request $request): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $products = $entityManager
             ->getRepository(Product::class)
             ->findAll();
@@ -55,6 +62,13 @@ class ProductController extends AbstractController
      */
     public function listp(ProductRepository $productsRepository): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Arial');
@@ -91,6 +105,13 @@ class ProductController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager,\Swift_Mailer $mailer): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
@@ -131,6 +152,13 @@ class ProductController extends AbstractController
      */
     public function show(Product $product): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         return $this->render('backoffice/product/show.html.twig', [
             'product' => $product,
         ]);
@@ -141,6 +169,13 @@ class ProductController extends AbstractController
      */
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
@@ -161,6 +196,13 @@ class ProductController extends AbstractController
      */
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
+        if (!($this->getUser())) {
+            return $this->redirectToRoute('app_home');
+        }
+
+        if(!(in_array("CATERING_MANAGER",$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('app_home');
+        }
         if ($this->isCsrfTokenValid('delete'.$product->getIdproduct(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();

@@ -83,7 +83,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/stat", name="app_stat")
+     * @Route("/stat", name="app_stat2")
      */
     public function statistiques(UserRepository $userRepository ){
 
