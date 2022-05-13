@@ -103,18 +103,51 @@ class ProductmobileController extends AbstractController
      /**
      * @Route("/addProduct", name="app_mobile_add")
      */
-    public function add(Request $request, NormalizerInterface $normalizer){
+    public function add(Request $request, NormalizerInterface $normalizer,\Swift_Mailer $mailer){
         $em =$this->getDoctrine()->getManager();
         $products= new Product();
         $products->setRefproduct($request->get("RefProduct"));
         $products->setSuppliername($request->get("Suppliername"));
         $products->setUnitpriceproduct($request->get("Unitpriceproduct"));
         $products->setQuantityproduct($request->get("Quantityproduct"));
+        $mail=[];
+        $msg= $products->getRefproduct();
+    
+            $message = (new \Swift_Message("New product is added with a name  : ".$msg))
+    
+                ->setFrom('viatores10@gmail.com')
+                ->setTo('zaghouani.ahlem@esprit.tn')
+                ->setBody(
+                   "test123"
+                ) ;
+    
+        $mailer->send($message);
+           
         $em->persist($products);
         $em->flush();
 
         return new Response("Product added");
 
+    }
+
+    /**
+     * @Route("/filter", name="code_filter", methods={"GET"})
+     */
+    public function showMobileByTitle(ProductRepository $productRepository, Request $request): Response
+    {
+        $title = $request->query->get("RefProduct");
+        $products = $productRepository->findBy(
+            array(
+                'RefProduct' => $title
+            )   );
+        $data = array();
+
+        foreach ($products as $key => $prod){
+            $data[$key]['title'] = $prod->getTitle();
+            $data[$key]['Unitpriceproduct'] = $prod->getPrice();
+
+        }
+        return new JsonResponse($data);
     }
 
     
